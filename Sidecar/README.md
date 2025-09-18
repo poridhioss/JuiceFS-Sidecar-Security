@@ -19,17 +19,14 @@ We use a **sidecar container architecture** where:
 - **Code-Server Main**: Runs VS Code interface, has NO AWS credentials, accesses files via shared mount
 - **Shared Volume**: Allows file access between containers without credential sharing
 
-The **JuiceFS CSI driver** is designed for **Enterprise Edition** and requires a **pre-created volume with a token from the dashboard**, so it cannot create or mount volumes directly with Community Edition. The **sidecar/manual approach** works with Community Edition because it can create and mount volumes using Redis + S3 credentials.
-
 ## Solution Steps
 
 ### 1. Save the Deployment File
 Create a file named `juicefs-sidecar.yaml` with the following content:
 
 ```yaml
-# ---------------------------------------
-# 1️⃣ Redis for JuiceFS Metadata Storage
-# ---------------------------------------
+# Redis for JuiceFS Metadata Storage
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -87,9 +84,8 @@ spec:
   type: ClusterIP
 
 ---
-# ---------------------------------------
-# 2️⃣ AWS Credentials Secret (Restricted Access)
-# ---------------------------------------
+# AWS Credentials Secret (Restricted Access)
+
 apiVersion: v1
 kind: Secret
 metadata:
@@ -105,9 +101,8 @@ stringData:
   S3_BUCKET: "https://bucket-name.s3.ap-southeast-1.amazonaws.com"
 
 ---
-# ---------------------------------------
-# 3️⃣ Code-Server with Secure JuiceFS Sidecar
-# ---------------------------------------
+# Code-Server with Secure JuiceFS Sidecar
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -362,9 +357,8 @@ spec:
       terminationGracePeriodSeconds: 60
 
 ---
-# ---------------------------------------
-# 4️⃣ Code-Server Service (NodePort)
-# ---------------------------------------
+# Code-Server Service (NodePort)
+
 apiVersion: v1
 kind: Service
 metadata:
