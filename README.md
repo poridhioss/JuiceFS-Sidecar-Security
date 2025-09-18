@@ -19,18 +19,6 @@ We use a **sidecar container architecture** where:
 - **Code-Server Main**: Runs VS Code interface, has NO AWS credentials, accesses files via shared mount
 - **Shared Volume**: Allows file access between containers without credential sharing
 
-**Simple Analogy**: The sidecar is like a security guard who unlocks a vault (S3) for you, then you can access the contents without ever seeing the keys.
-
-## Why Not Use CSI Driver?
-
-CSI Driver approach has limitations:
-- Requires JuiceFS Enterprise Edition (paid)
-- Needs pre-created volumes with tokens from web console
-- Less flexibility for dynamic volume creation
-- More complex setup and troubleshooting
-
-Our sidecar approach uses JuiceFS Community Edition (free) and provides complete control over the storage setup.
-
 ## Solution Steps
 
 ### 1. Save the Deployment File
